@@ -5,13 +5,15 @@
 <title>M3U8 Player</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
-<body>
+<body style="padding:15px">
 
-<h2>M3U8 Player</h2>
+<h3>M3U8 Player</h3>
 
-<input type="text" id="m3u8Link"
+<input
+id="m3u8Link"
+type="text"
 placeholder="Paste M3U8 link here"
-style="width:100%;padding:10px;">
+style="width:100%;padding:10px">
 
 <br><br>
 
@@ -22,22 +24,30 @@ style="width:100%;padding:10px;">
 <video id="video" controls width="100%"></video>
 
 <script>
+let hls;
+
 function playVideo() {
-    const video = document.getElementById("video");
-    const videoSrc = document.getElementById("m3u8Link").value;
+  const video = document.getElementById("video");
+  const url = document.getElementById("m3u8Link").value;
 
-    if (!videoSrc) {
-        alert("Paste link first");
-        return;
-    }
+  if (!url) {
+    alert("Paste a link");
+    return;
+  }
 
-    if (Hls.isSupported()) {
-        const hls = new Hls();
-        hls.loadSource(videoSrc);
-        hls.attachMedia(video);
-    } else {
-        video.src = videoSrc;
-    }
+  if (hls) {
+    hls.destroy();
+  }
+
+  if (Hls.isSupported()) {
+    hls = new Hls();
+    hls.loadSource(url);
+    hls.attachMedia(video);
+  } else {
+    video.src = url;
+  }
+
+  video.play();
 }
 </script>
 
