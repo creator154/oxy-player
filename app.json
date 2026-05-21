@@ -1,0 +1,23 @@
+{
+  "name": "Physics Wallah Extractor Bot",
+  "description": "Telegram batch extractor and uploader bot",
+  "repository": "https://github.com/your/repo",
+  "keywords": ["telegram", "pyrogram", "bot"],
+  "env": {
+    "API_ID": {
+      "description": "Telegram API ID"
+    },
+    "API_HASH": {
+      "description": "Telegram API HASH"
+    },
+    "BOT_TOKEN": {
+      "description": "Telegram Bot Token"
+    },
+    "MONGO_URL": {
+      "description": "MongoDB URL"
+    },
+    "OWNER_ID": {
+      "description": "Telegram Owner ID"
+    }
+  }
+}
