@@ -1,0 +1,10 @@
+pyrogram
+TgCrypto
+motor
+aiohttp
+requests
+python-dotenv
+uvloop
+cryptography
+pymongo
+heroku3
