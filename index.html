@@ -7,19 +7,37 @@
 </head>
 <body>
 
+<h2>M3U8 Player</h2>
+
+<input type="text" id="m3u8Link"
+placeholder="Paste M3U8 link here"
+style="width:100%;padding:10px;">
+
+<br><br>
+
+<button onclick="playVideo()">Play</button>
+
+<br><br>
+
 <video id="video" controls width="100%"></video>
 
 <script>
-const video = document.getElementById("video");
+function playVideo() {
+    const video = document.getElementById("video");
+    const videoSrc = document.getElementById("m3u8Link").value;
 
-const videoSrc = `https://d11qlj9do3pfdc.cloudfront.net/index_6.m3u8?Signature=Pda853C6mNnKcQNaLEua2yuSZD~BiUaDQOwdXCBqP6qAafLflPPGS1EJ8EsuVZk7YDukgOBKkzPKmr5JQP4eyXq~T942xSREDg-Ao6KHmZE2mzD6DOMFKGHgoA4u13~CRAm~EocWPDKul1fV2NH2cTnxQW9e8kujKa7kBDDGC7CuUAgpuQLdj1YpHBygTq6r2D2nRRgmanIIQLBg8rX0w0Zx3phtosDsuJvAOaqMqkKXZ5CsaZF4zecnuoh5VQmdr5BzEH-UiWWehhtKxJ9TIoQaKfvnNeHppz2apdFg7DvmCF5uM-QHd54KqhAz1fyPyoxmVqcQRcoyamWsjaH7MA__&Key-Pair-Id=APKAXVKMENFCRKTG5XE2&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9kMTFxbGo5ZG8zcGZkYy5jbG91ZGZyb250Lm5ldC8qIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzc5MzU1OTg4fX19XX0_&start=1779341400`;
+    if (!videoSrc) {
+        alert("Paste link first");
+        return;
+    }
 
-if (Hls.isSupported()) {
-    const hls = new Hls();
-    hls.loadSource(videoSrc);
-    hls.attachMedia(video);
-} else {
-    video.src = videoSrc;
+    if (Hls.isSupported()) {
+        const hls = new Hls();
+        hls.loadSource(videoSrc);
+        hls.attachMedia(video);
+    } else {
+        video.src = videoSrc;
+    }
 }
 </script>
 
