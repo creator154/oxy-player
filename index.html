@@ -1,54 +1,134 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>M3U8 Player</title>
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-</head>
-<body style="padding:15px">
 
-<h3>M3U8 Player</h3>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<style>
+body{
+    margin:0;
+    padding:15px;
+    font-family:Arial,sans-serif;
+}
+
+h2{
+    text-align:center;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    box-sizing:border-box;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+video{
+    width:100%;
+    margin-top:15px;
+    border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>M3U8 Player</h2>
 
 <input
 id="m3u8Link"
 type="text"
-placeholder="Paste M3U8 link here"
-style="width:100%;padding:10px">
+placeholder="Paste M3U8 link here">
 
-<br><br>
+<button onclick="playVideo()">
+Play Video
+</button>
 
-<button onclick="playVideo()">Play</button>
-
-<br><br>
-
-<video id="video" controls width="100%"></video>
+<video
+id="video"
+controls
+playsinline>
+</video>
 
 <script>
-let hls;
 
-function playVideo() {
-  const video = document.getElementById("video");
-  const url = document.getElementById("m3u8Link").value;
+let hls=null;
 
-  if (!url) {
-    alert("Paste a link");
-    return;
-  }
+function playVideo(){
 
-  if (hls) {
-    hls.destroy();
-  }
+const video=document.getElementById("video");
+const url=document.getElementById("m3u8Link").value.trim();
 
-  if (Hls.isSupported()) {
-    hls = new Hls();
-    hls.loadSource(url);
-    hls.attachMedia(video);
-  } else {
-    video.src = url;
-  }
-
-  video.play();
+if(!url){
+alert("Paste M3U8 link");
+return;
 }
+
+if(hls){
+hls.destroy();
+}
+
+if(Hls.isSupported()){
+
+hls=new Hls({
+enableWorker:true
+});
+
+hls.loadSource(url);
+
+hls.attachMedia(video);
+
+hls.on(Hls.Events.MANIFEST_PARSED,function(){
+
+video.play();
+
+});
+
+hls.on(Hls.Events.ERROR,function(event,data){
+
+console.log(data);
+
+alert(
+"Stream Error:\n"+
+data.details
+);
+
+});
+
+}
+
+else if(video.canPlayType(
+'application/vnd.apple.mpegurl'
+)){
+
+video.src=url;
+
+video.play();
+
+}
+
+else{
+
+alert(
+"Browser does not support HLS"
+);
+
+}
+
+}
+
 </script>
 
 </body>
